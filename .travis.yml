@@ -16,7 +16,6 @@ before_install:
   - gcloud container clusters get-credentials multi-cluster
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build -t alphakex2/react-test -f ./client/Dockerfile.dev ./client
-
 script:
   - docker run alphakex2/react-test npm test -- --coverage
 
@@ -25,7 +24,6 @@ deploy:
   script: bash ./deploy.sh
   on:
     branch: master
-
   - curl https://sdk.cloud.google.com | bash > /dev/null;
   - source $HOME/google-cloud-sdk/path.bash.inc
   - gcloud components update kubectl
@@ -37,7 +35,6 @@ deploy:
   - docker build -t alphakex2/react-test -f ./client/Dockerfile.env ./client
 script:
   - docker run -e CI=true alphakex2/react-test npm run test -- --coverage
-
 deploy: 
   provider: script
   script: bash ./deploy.sh
